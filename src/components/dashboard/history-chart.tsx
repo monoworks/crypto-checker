@@ -56,23 +56,24 @@ export function HistoryChart({ symbol, onClose }: HistoryChartProps) {
         ) : (
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
               <XAxis
                 dataKey="time"
-                tick={{ fontSize: 11 }}
-                className="text-muted-foreground"
+                tick={{ fontSize: 11, fill: "#94a3b8" }}
+                stroke="#334155"
               />
               <YAxis
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 11, fill: "#94a3b8" }}
+                stroke="#334155"
                 tickFormatter={(v) => `${v.toFixed(3)}%`}
-                className="text-muted-foreground"
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
+                  backgroundColor: "#1e293b",
+                  border: "1px solid #334155",
                   borderRadius: "8px",
                   fontSize: "12px",
+                  color: "#f1f5f9",
                 }}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 formatter={((value: any, name: any) => {
@@ -81,13 +82,14 @@ export function HistoryChart({ symbol, onClose }: HistoryChartProps) {
                   return [`${v.toFixed(2)}%`, "Annualized"];
                 }) as any}
               />
-              <ReferenceLine y={0} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" />
+              <ReferenceLine y={0} stroke="#64748b" strokeDasharray="3 3" />
               <Line
                 type="monotone"
                 dataKey="rate"
-                stroke="hsl(var(--primary))"
+                stroke="#6366f1"
                 strokeWidth={2}
                 dot={false}
+                activeDot={{ r: 4, fill: "#6366f1" }}
               />
             </LineChart>
           </ResponsiveContainer>
