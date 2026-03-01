@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { useFundingRates } from "@/hooks/use-funding-rates";
 import { useCountdown } from "@/hooks/use-countdown";
 import { StatsCards } from "./stats-cards";
@@ -21,6 +21,13 @@ export function DashboardShell() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
   const [filterLevel, setFilterLevel] = useState<AnomalyLevel | "all">("all");
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedSymbol && chartRef.current) {
+      chartRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [selectedSymbol]);
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -129,10 +136,12 @@ export function DashboardShell() {
       )}
 
       {selectedSymbol && (
-        <HistoryChart
-          symbol={selectedSymbol}
-          onClose={() => setSelectedSymbol(null)}
-        />
+        <div ref={chartRef}>
+          <HistoryChart
+            symbol={selectedSymbol}
+            onClose={() => setSelectedSymbol(null)}
+          />
+        </div>
       )}
     </div>
   );
